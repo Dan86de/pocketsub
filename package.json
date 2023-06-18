@@ -12,6 +12,7 @@
     "seed": "ts-node -P tsconfig-seed.json -r tsconfig-paths/register --transpileOnly prisma/seed.ts"
   },
   "dependencies": {
+    "@clerk/nextjs": "^4.21.3",
     "@prisma/client": "^4.15.0",
     "@types/node": "20.3.1",
     "@types/react": "18.2.12",
@@ -32,6 +33,7 @@
     "prettier": "^2.8.8",
     "prettier-plugin-tailwindcss": "^0.3.0",
     "prisma": "^4.15.0",
+    "svix": "^1.4.12",
     "ts-node": "^10.9.1"
   }
 }
