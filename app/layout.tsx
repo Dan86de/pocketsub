@@ -1,4 +1,5 @@
 import "./globals.css";
+import "remixicon/fonts/remixicon.css";
 import { ClerkProvider } from "@clerk/nextjs";
 
 export const metadata = {
