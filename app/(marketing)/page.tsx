@@ -1,4 +1,4 @@
-export default function Home() {
+export default function HomePage() {
   return (
     <main className="mx-4 px-0 text-center">
       Hello from Pocketsub
