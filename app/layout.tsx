@@ -14,7 +14,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body>{children}</body>
+        <body className="h-screen text-zinc-950">{children}</body>
       </html>
     </ClerkProvider>
   );
