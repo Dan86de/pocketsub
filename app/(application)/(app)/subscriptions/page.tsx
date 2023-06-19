@@ -1,7 +1,12 @@
+import AppContentHeader from "@/components/AppContentHeader";
+
 export default function SubscriptionsPage() {
   return (
-    <main className="mx-4 px-0 text-center">
-      Hello from Subscriptions
-    </main>
+    <section className="h-full p-8">
+      {/* TOP HEADER WITH BUTTONS */}
+      <AppContentHeader title="Subscriptions" />
+
+      {/* CONTENT */}
+    </section>
   );
 }
