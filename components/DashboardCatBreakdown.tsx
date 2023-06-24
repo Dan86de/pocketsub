@@ -7,15 +7,18 @@ interface DashboardCatBreakdownProps {
       })[];
 }
 
+/**
+ * This is exchange rates supported in this app.
+ */
+export const exchangeRates: Record<string, number> = {
+  EUR: 4.7,
+  USD: 4.5,
+  PLN: 1,
+};
+
 export default function DashboardCatBreakdown({
   data,
 }: DashboardCatBreakdownProps) {
-  const exchangeRates: Record<string, number> = {
-    EUR: 4.7,
-    USD: 4.5,
-    PLN: 1,
-  };
-
   function sumPricesByCategory(data: Subscription[]) {
     return data.reduce((acc: Record<string, number>, item) => {
       // Convert to base currency if necessary
