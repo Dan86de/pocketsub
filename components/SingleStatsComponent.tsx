@@ -1,14 +1,14 @@
 import { SUBSCRIPTION_CURRENCY } from "@prisma/client";
 
 interface SingleStatsComponentProps {
-  sum: number;
-  currency: SUBSCRIPTION_CURRENCY;
+  sum: number | string;
   subTitle: string;
+  currency?: SUBSCRIPTION_CURRENCY;
 }
 
 export default function SingleStatsComponent({
   sum,
-  currency,
+  currency = SUBSCRIPTION_CURRENCY.PLN,
   subTitle,
 }: SingleStatsComponentProps) {
   return (
