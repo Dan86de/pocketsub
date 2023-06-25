@@ -4,7 +4,6 @@ import DashboardMainStats from "@/components/DashboardMainStats";
 import { prisma } from "@/lib/db";
 import { auth } from "@clerk/nextjs";
 import { format } from "date-fns";
-import { tr } from "date-fns/locale";
 import Image from "next/image";
 
 const getDataForDashboard = async () => {
@@ -63,42 +62,43 @@ export default async function DashboardPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {data.map((subscription) => {
-                    return (
-                      <tr key={subscription.id}>
-                        <td className="whitespace-nowrap py-4 pl-6 text-sm">
-                          <div className="flex items-center justify-start gap-2">
-                            <Image
-                              src={subscription.avatar_url}
-                              alt={`${subscription.name} logo`}
-                              className="rounded-full"
-                              width={16}
-                              height={16}
-                            />
-                            {subscription.name}
-                          </div>
-                        </td>
-                        <td className="hidden text-sm lg:table-cell">
-                          {subscription.category}
-                        </td>
-                        <td className="hidden text-sm lowercase xl:table-cell">
-                          {subscription.billing_period}
-                        </td>
-                        <td className="hidden text-sm xl:table-cell">
-                          {format(
-                            subscription.next_payment_date,
-                            "MMM dd, yyyy"
-                          )}
-                        </td>
-                        <td className="whitespace-nowrap py-4 pr-6 text-sm font-medium">
-                          <div className="flex justify-end gap-2">
-                            <p>{subscription.price}</p>
-                            <p>{subscription.currency}</p>
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  })}
+                  {data &&
+                    data.map((subscription) => {
+                      return (
+                        <tr key={subscription.id}>
+                          <td className="whitespace-nowrap py-4 pl-6 text-sm">
+                            <div className="flex items-center justify-start gap-2">
+                              <Image
+                                src={subscription.avatar_url}
+                                alt={`${subscription.name} logo`}
+                                className="rounded-full"
+                                width={16}
+                                height={16}
+                              />
+                              {subscription.name}
+                            </div>
+                          </td>
+                          <td className="hidden text-sm lg:table-cell">
+                            {subscription.category}
+                          </td>
+                          <td className="hidden text-sm lowercase xl:table-cell">
+                            {subscription.billing_period}
+                          </td>
+                          <td className="hidden text-sm xl:table-cell">
+                            {format(
+                              subscription.next_payment_date,
+                              "MMM dd, yyyy"
+                            )}
+                          </td>
+                          <td className="whitespace-nowrap py-4 pr-6 text-sm font-medium">
+                            <div className="flex justify-end gap-2">
+                              <p>{subscription.price}</p>
+                              <p>{subscription.currency}</p>
+                            </div>
+                          </td>
+                        </tr>
+                      );
+                    })}
                 </tbody>
               </table>
             </div>
