@@ -1,7 +1,6 @@
 import AppContentHeader from "@/components/AppContentHeader";
 import { exchangeRates } from "@/components/DashboardCatBreakdown";
 import SingleStatsComponent from "@/components/SingleStatsComponent";
-import { prisma } from "@/lib/db";
 import { auth } from "@clerk/nextjs";
 import {
   PAYMENT_STATUS,
@@ -11,6 +10,7 @@ import {
 } from "@prisma/client";
 import { format } from "date-fns";
 import Image from "next/image";
+import { getSubscriptions } from "../../actions";
 
 function getStats(
   data: (Subscription & {
@@ -66,24 +66,12 @@ function getStats(
   };
 }
 
-const getDataForSubscriptions = async () => {
-  const { userId } = auth();
-
-  try {
-    if (!userId) return;
-    const res = prisma.subscription.findMany({
-      where: { ownerId: userId },
-      include: { payments: true },
-      orderBy: { next_payment_date: "desc" },
-    });
-    return res;
-  } catch (error) {
-    throw new Error("Failed to fetch data");
-  }
-};
-
 export default async function SubscriptionsPage() {
-  const data = await getDataForSubscriptions();
+  const { userId } = auth();
+  const data = await getSubscriptions(userId!, {
+    key: "next_payment_date",
+    value: "desc",
+  });
   if (!data) return null;
   const stats = getStats(data);
   return (

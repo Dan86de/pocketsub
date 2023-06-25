@@ -1,10 +1,12 @@
 "use client";
+import { addSubscription } from "@/app/(application)/actions";
 import { ClerkLoading, useUser } from "@clerk/nextjs";
 import {
   SUBSCRIPTION_BILLING_PERIOD,
   SUBSCRIPTION_CURRENCY,
 } from "@prisma/client";
 import * as Dialog from "@radix-ui/react-dialog";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { format } from "date-fns";
 import { useState } from "react";
 
@@ -24,12 +26,25 @@ export default function AddSubscriptionBtn() {
   );
   const [nextPayment, setNextPayment] = useState<string>();
 
+  const client = useQueryClient();
+  const mutation = useMutation({
+    mutationFn: addSubscription,
+    onSuccess: () => {
+      client.invalidateQueries({ queryKey: ["dashboardData"] });
+    },
+  });
+
+  const [isOpen, setIsOpen] = useState(false);
+
   if (!user) return <ClerkLoading />;
 
   return (
     <div>
       <p className="text-centerw mb-2">Add new subscription?</p>
-      <Dialog.Root>
+      <Dialog.Root
+        open={isOpen}
+        onOpenChange={(open) => setIsOpen(open)}
+      >
         <Dialog.Trigger>
           <button className="flex items-center rounded-lg bg-zinc-900 py-3 pl-4 pr-6 text-zinc-50">
             <i className="ri-add-line text-2xl" />
@@ -229,6 +244,19 @@ export default function AddSubscriptionBtn() {
                 <button
                   onClick={(e) => {
                     e.preventDefault();
+                    if (!nextPayment) return;
+                    mutation.mutate({
+                      name,
+                      category,
+                      avatar_url: avatarURL,
+                      billing_period: billingPeriod,
+                      currency,
+                      nextPayment,
+                      price: cost,
+                      userId: user.id,
+                    });
+
+                    setIsOpen(false);
                   }}
                   className="flex w-full items-center justify-center rounded-lg bg-zinc-900 p-4 font-medium leading-none text-zinc-100"
                 >

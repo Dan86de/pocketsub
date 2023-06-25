@@ -1,6 +1,7 @@
 import "./globals.css";
 import "remixicon/fonts/remixicon.css";
 import { ClerkProvider } from "@clerk/nextjs";
+import Providers from "@/providers";
 
 export const metadata = {
   title: "Pocketsub",
@@ -14,9 +15,11 @@ export default function RootLayout({
 }) {
   return (
     <ClerkProvider>
-      <html lang="en">
-        <body className="h-screen text-zinc-950">{children}</body>
-      </html>
+      <Providers>
+        <html lang="en">
+          <body className="h-screen text-zinc-950">{children}</body>
+        </html>
+      </Providers>
     </ClerkProvider>
   );
 }
